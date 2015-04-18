@@ -37,6 +37,10 @@
                 insereMessage(data.pseudo, data.message);
             });
 
+            socket.on('new_user', function(pseudo) {
+                $('#zone_chat').prepend('<p><em>' + pseudo + ' a rejoint le Chat !</em></p>');
+            })
+
             $('#form_chat').submit(function () {
                 var message = $('#message').val();
                 socket.emit('message', message); // Transmet le message aux autres
