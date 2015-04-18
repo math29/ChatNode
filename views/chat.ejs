@@ -17,25 +17,37 @@
     <body>
         <h1>Le Chat réalisé en Node.js !</h1>
 
-        <ul id="messages"></ul>
-        <form action="/">
-            <input id="m" autocomplete="off" /><button>Send</button>
+        <section id="zone_chat"></section>
+        
+        <form action="/" method="post" id="form_chat">
+            <input id="message" autocomplete="off" /><button type="submit" id="send_message">Send</button>
         </form>
 
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
+            var socket = io.connect('http://localhost:8080');
+            
             var pseudo = prompt('Quel est votre pseudo ?');
             socket.emit('new_user', pseudo);
-            var socket = io.connect('http://localhost:8080');
 
-            $('#formulaire_chat').submit(function () {
+            document.title = pseudo + '-' + document.title;
+
+            socket.on('message', function(data){
+                insereMessage(data.pseudo, data.message);
+            });
+
+            $('#form_chat').submit(function () {
                 var message = $('#message').val();
                 socket.emit('message', message); // Transmet le message aux autres
                 insereMessage(pseudo, message); // Affiche le message aussi sur notre page
                 $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
+
+            function insereMessage(pseudo, message) {
+                $('#zone_chat').prepend('<p><strong>' + pseudo + '</strong> ' + message + '</p>');
+            }
         </script>
     </body>
 </html>
