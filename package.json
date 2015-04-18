@@ -1,0 +1,10 @@
+{
+    "name": "ChatNode",
+    "version": "0.1.0",
+    "dependencies": {
+        "express": "~4.11.0",
+        "ejs": "~2.1.4"
+    },
+    "author": "Math29 <maaath29@email.com>",
+    "description": "Un gestionnaire de todolist ultra basique"
+}
